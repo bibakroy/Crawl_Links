@@ -48,7 +48,6 @@ exports.getLinksAndAddToDB = async (req, res) => {
 
   const crawlLinks = async ({ url }) => {
     if (!recursion) return Promise.resolve();
-    console.log("crawling", url);
     if (seenUrls[url]) {
       seenUrls[url].frequency = seenUrls[url].frequency + 1;
       return null;

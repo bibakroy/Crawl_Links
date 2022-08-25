@@ -2,73 +2,80 @@ import "./App.css";
 import { useState } from "react";
 import axios from "axios";
 
+const apiRoute = "http://localhost:5050/api/crawl-links";
+
 function App() {
+  const [domain, setDomain] = useState("");
+  const [waiting, setWaiting] = useState("");
   const [linksData, setLinksData] = useState();
-  const [waiting, setWaiting] = useState();
-  const [domain, setDomain] = useState("https://www.w3schools.com/");
-  // const [domain, setDomain] = useState("http://127.0.0.1:5500/");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const getLinks = async (e) => {
     e.preventDefault();
-    if (waiting > 30) return;
 
     setLinksData();
     setError(false);
     setLoading(true);
+
     const options = {
       method: "POST",
       data: {
-        domain: domain,
-        waiting: waiting || 30,
+        domain,
+        ...(waiting && { waiting }),
       },
     };
+
     try {
-      const response = await axios(
-        "http://localhost:5050/api/crawl-links",
-        options
-      );
+      const response = await axios(apiRoute, options);
       const data = await response.data;
       setLinksData(data.linksData);
-      console.log(data.linksData);
     } catch (error) {
       console.log(error);
       setLinksData();
       setError(true);
     }
+
     setLoading(false);
   };
 
-  const resetPage = () => {
+  const resetPage = (e) => {
+    e.preventDefault();
+
     setLinksData();
-    // setDomain("");
+    setDomain("");
+    setWaiting("");
     setError(false);
+    setLoading(false);
   };
 
   return (
     <div className="app">
-      <form className="inputDiv">
-        <div>
-          <input
-            placeholder="Input domain"
-            defaultValue={domain}
-            value={domain}
-            onChange={(e) => setDomain(e.target.value)}
-          />
-          <input
-            type="number"
-            max="30"
-            value={waiting}
-            placeholder="Input waiting time in second"
-            onChange={(e) => setWaiting(e.target.value)}
-          />
+      <form onSubmit={(e) => getLinks(e)}>
+        <div className="inputDiv">
+          <div>
+            <label>Domain* :</label>
+            <input
+              type="text"
+              placeholder="Input domain"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Waiting Time (in second):</label>
+            <input
+              type="number"
+              value={waiting}
+              placeholder="Input waiting time in second"
+              onChange={(e) => setWaiting(e.target.value)}
+            />
+          </div>
         </div>
         <div>
-          <button type="submit" onClick={(e) => getLinks(e)}>
-            Crawl
-          </button>
-          <button onClick={resetPage}>Reset Page</button>
+          <button type="submit">Crawl</button>
+          <button onClick={(e) => resetPage(e)}>Reset Page</button>
         </div>
       </form>
       {loading && <div>Loading...</div>}
