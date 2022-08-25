@@ -70,7 +70,7 @@ button {
 
 .cell {
   min-height: 40px;
-  width: 80px;
+  width: 30px;
   text-align: center;
   margin: 0 15px;
   display: flex;
@@ -79,16 +79,21 @@ button {
 }
 
 .cell:nth-child(2) {
-  width: 450px;
+  width: 500px;
   overflow-x: auto;
 }
 
 .cell:nth-child(3) {
-  width: 200px;
+  width: 250px;
   overflow-x: auto;
+}
+
+.cell:nth-child(4) {
+  width: 100px;
 }
 
 a {
   text-decoration: none;
   color: #000;
+  text-align: left;
 }

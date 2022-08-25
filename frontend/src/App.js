@@ -75,10 +75,10 @@ function App() {
         </div>
         <div>
           <button type="submit">Crawl</button>
-          <button onClick={(e) => resetPage(e)}>Reset Page</button>
+          <button onClick={(e) => resetPage(e)}>Reset</button>
         </div>
       </form>
-      {loading && <div>Loading...</div>}
+      {loading && <div>Crawling...</div>}
       {error && <div>Something went wrong.</div>}
       {linksData && (
         <div className="table">
@@ -91,7 +91,7 @@ function App() {
           <div className="rowCollection">
             {linksData.map((item, index) => (
               <div className="row" key={index}>
-                <p className="cell">{item.id}</p>
+                <p className="cell">{index + 1}</p>
                 <a className="cell" href={item.link} target="_blank">
                   {item.link}
                 </a>

@@ -58,7 +58,6 @@ exports.getLinksAndAddToDB = async (req, res) => {
     const $ = cheerio.load(html.data);
 
     seenUrls[url] = {
-      id: Object.keys(seenUrls).length + 1,
       link: url,
       title: $("title").text(),
       frequency: 1,

@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 let LinkDataSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-  },
   link: {
     type: String,
     required: true,
